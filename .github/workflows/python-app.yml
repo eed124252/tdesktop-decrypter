@@ -1,32 +1,27 @@
-。: * EXE EXE
+name: Python application
 
-在:
- 推:
- , : [ 酸 ]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
-。:
- 。:
- 。: windows-y
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
- 。:
-      - 。: “/checkout@v3”
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
 
-      - 。: &python
- 。: “/setup-python@v4”
- 與:
- python uch: "3。10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      - 。: 。
- 跑: |
- python-m # [0070] [0070]
- & pyinstaller -r [0070]。...txt。
-
-      - 。: ryface PyInstaller #
- 跑: |
- pyinstaller -onefile main。py
-
-      - 。: 遺傳EXE
- 。: “/upload-artifact@v3”
- 與:
- 。: telegram-decrypter-exe
- 。: “/”
+    - name: Run tests
+      run: |
+        pytest
